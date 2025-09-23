@@ -30,4 +30,4 @@ Make sure you have Python 3.6 or newer installed.
    ```bash
    python monte_carlo_simulator.py
 5. You can easily modify the TICKER, START_DATE, END_DATE, NUM_SIMULATIONS, and NUM_DAYS variables within the script to customize your analysis.
-   
+   ![Monte Carlo Simulation Plot](monte_carlo_simulation.png)
