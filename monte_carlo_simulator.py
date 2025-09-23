@@ -1,83 +1,49 @@
-import yfinance as yf
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def fetch_stock_data(ticker, start_date, end_date):
-    """Fetches historical stock data from Yahoo Finance."""
-    print(f"Fetching data for {ticker} from {start_date} to {end_date}...")
-    try:
-        data = yf.download(ticker, start=start_date, end=end_date)
-        if data.empty:
-            raise ValueError("No data returned for the given ticker and date range.")
-        return data['Adj Close']
-    except Exception as e:
-        print(f"Error fetching data: {e}")
-        return None
+# Parameters
+ticker = 'AAPL'
+start_date = '2020-01-01'
+end_date = '2023-01-01'
+num_simulations = 100
+time_horizon = 252  # Trading days in a year
 
-def monte_carlo_simulation(data, num_simulations, num_days):
-    """
-    Performs Monte Carlo simulation to predict future stock prices.
-    Uses Geometric Brownian Motion.
-    """
-    # Calculate daily returns
-    returns = data.pct_change().dropna()
-    
-    # Calculate mean and standard deviation of daily returns
-    mu = returns.mean()
-    sigma = returns.std()
-    
-    # Calculate drift and standard deviation for the simulation
-    drift = mu - 0.5 * sigma**2
-    daily_returns_sim = np.random.normal(drift, sigma, size=(num_days, num_simulations))
-    
-    # Get the last closing price
-    last_price = data.iloc[-1]
-    
-    # Create an array to hold simulated paths
-    price_paths = np.zeros_like(daily_returns_sim)
-    price_paths[0] = last_price
-    
-    # Simulate price paths
-    for t in range(1, num_days):
-        price_paths[t] = price_paths[t - 1] * np.exp(daily_returns_sim[t] * np.sqrt(252))
-        
-    return pd.DataFrame(price_paths)
+# Simulate historical data (replace with yfinance if online)
+np.random.seed(42)
+simulated_prices = np.cumprod(1 + np.random.normal(0.0005, 0.02, 756)) * 150  # 3 years of prices
+closing_prices = pd.Series(simulated_prices[-252:])  # Use last year as "recent" prices
 
-def plot_results(simulations_df, historical_data):
-    """Plots the simulated paths and key statistics."""
-    plt.figure(figsize=(12, 8))
-    plt.plot(simulations_df, alpha=0.1, color='blue') # Plot all simulated paths
-    plt.title('Monte Carlo Simulation of Stock Price')
-    plt.xlabel('Days into the Future')
-    plt.ylabel('Simulated Price ($)')
-    plt.grid(True)
-    
-    # Plot the mean and confidence intervals
-    final_prices = simulations_df.iloc[-1]
-    mean_price = final_prices.mean()
-    confidence_95 = np.percentile(final_prices, [2.5, 97.5])
-    
-    plt.axhline(mean_price, color='red', linestyle='--', label=f'Mean Final Price: ${mean_price:.2f}')
-    plt.axhline(confidence_95[0], color='green', linestyle='--', label=f'95% Confidence Interval: [${confidence_95[0]:.2f}, ${confidence_95[1]:.2f}]')
-    plt.axhline(confidence_95[1], color='green', linestyle='--')
-    
-    plt.legend()
-    plt.show()
+# Calculate daily returns and volatility
+daily_returns = closing_prices.pct_change().dropna()
+mean_return = daily_returns.mean()
+volatility = daily_returns.std()
 
-if __name__ == "__main__":
-    TICKER = 'AAPL'  # Change to your desired stock ticker
-    START_DATE = '2022-01-01'
-    END_DATE = '2023-01-01'
-    NUM_SIMULATIONS = 1000
-    NUM_DAYS = 252 # Approximately one trading year
+# Starting price
+last_price = closing_prices.iloc[-1]
 
-    # 1. Fetch historical data
-    historical_prices = fetch_stock_data(TICKER, START_DATE, END_DATE)
+# Monte Carlo simulation
+simulations = np.zeros((time_horizon, num_simulations))
+for i in range(num_simulations):
+    price_series = [last_price]
+    for _ in range(time_horizon - 1):
+        price = price_series[-1] * np.exp((mean_return - 0.5 * volatility**2) + volatility * np.random.normal())
+        price_series.append(price)
+    simulations[:, i] = price_series
 
-    if historical_prices is not None:
-        # 2. Run the Monte Carlo simulation
-        simulated_paths = monte_carlo_simulation(historical_prices, NUM_SIMULATIONS, NUM_DAYS)
+# Plotting
+plt.figure(figsize=(12, 6))
+for i in range(num_simulations):
+    plt.plot(simulations[:, i], linewidth=0.7, alpha=0.7)
+plt.title(f'Monte Carlo Simulation of {ticker} Stock Price')
+plt.xlabel('Days')
+plt.ylabel('Price')
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("monte_carlo_simulation.png", dpi=300)
+plt.close()
 
-        # 3. Plot the results
-        plot_results(simulated_paths, historical_prices)
+# Optional: Save simulation data
+sim_df = pd.DataFrame(simulations)
+sim_df.to_csv("monte_carlo_simulations.csv", index=False)
