@@ -29,5 +29,5 @@ Make sure you have Python 3.6 or newer installed.
 4. Execute the script from your terminal:
    ```bash
    python monte_carlo_simulator.py
-### You can easily modify the TICKER, START_DATE, END_DATE, NUM_SIMULATIONS, and NUM_DAYS variables within the script to customize your analysis.
+   You can easily modify the TICKER, START_DATE, END_DATE, NUM_SIMULATIONS, and NUM_DAYS variables within the script to customize your analysis.
    
