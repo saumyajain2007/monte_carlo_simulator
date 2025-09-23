@@ -56,3 +56,23 @@ pip install numpy pandas matplotlib
 
 ```bash
 python3 monte_carlo_simulation.py
+```
+#### Understanding the Output
+
+After running the script, two files will be created in the same directory
+
+1.  monte_carlo_simulation.png: A visual chart showing the many simulated price paths over the specified time horizon.
+
+2.  monte_carlo_simulations.csv: A spreadsheet containing all the raw data from the simulation for each day and each path.
+
+#### Customization
+
+You can easily modify the simulation parameters by changing the values at the top of the monte_carlo_simulation.py script:
+
+1.ticker: Change this to the ticker symbol of your desired stock (e.g., 'GOOGL').
+
+2.start_date and end_date: Adjust the date range for the historical data used.
+
+3.num_simulations: Increase or decrease the number of simulation paths to run.
+
+4.time_horizon: Change the number of trading days to forecast into the future.
