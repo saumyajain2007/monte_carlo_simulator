@@ -1,33 +1,48 @@
-# Monte Carlo Stock Price Simulator
+# Monte Carlo Stock Price Simulation
 
-## Overview
-This project utilizes Monte Carlo methods to simulate thousands of future stock price paths, providing a robust model for risk assessment and potential outcomes. It uses the Geometric Brownian Motion model to forecast future stock prices based on historical data.
+This Python script performs a **Monte Carlo simulation** to forecast potential future stock prices. The simulation uses historical price data to model the stock's future path, considering its historical volatility and average daily return.
 
-## Methodology
-The simulation uses the following steps:
-1.  **Data Acquisition**: Historical daily adjusted closing prices for a chosen stock are fetched using the `yfinance` library.
-2.  **Parameter Calculation**: The mean and standard deviation of daily returns are calculated from the historical data. These are used to determine the `drift` and `volatility` of the stock.
-3.  **Monte Carlo Simulation**: Thousands of future price paths are simulated. For each path, a random daily return is generated based on the stock's historical drift and volatility.
-4.  **Risk Assessment**: The simulation provides a range of potential outcomes. Key metrics like the mean final price and confidence intervals (e.g., 95% confidence) are calculated to assess potential risks and rewards.
+![Monte Carlo Simulation of Stock Price](monte_carlo_simulation.png)
 
-## Getting Started
+***
 
-### Prerequisites
-Make sure you have Python 3.6 or newer installed.
+### Features
 
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/saumyajain2007/monte-carlo-stock-simulator.git
-2. Navigate into the project directory:
-   ```bash
-   cd monte-carlo-stock-simulator
-3. Install the required Python libraries:
-   ```bash
-   pip install -r requirements.txt
-### Running the Simulation
-4. Execute the script from your terminal:
-   ```bash
-   python monte_carlo_simulator.py
-5. You can easily modify the TICKER, START_DATE, END_DATE, NUM_SIMULATIONS, and NUM_DAYS variables within the script to customize your analysis.
-   ![Monte Carlo Simulation Plot](monte_carlo_simulation.png)
+-   Generates a Monte Carlo simulation of stock price movements using the **Geometric Brownian Motion (GBM)** model.
+-   Calculates key metrics like daily returns and volatility from historical data.
+-   Visualizes the simulation results with an easy-to-read chart, saving it as a `.png` file.
+-   Exports all simulation data to a `.csv` file for further analysis.
+
+***
+
+### Theoretical Basis
+
+A **Monte Carlo simulation** is a computational technique that uses repeated random sampling to model the probability of different outcomes in a process that is difficult to predict. In finance, it is a powerful tool for valuing assets and forecasting price movements.
+
+#### Geometric Brownian Motion (GBM)
+
+The theoretical foundation for this script is **Geometric Brownian Motion (GBM)**, a widely used model in mathematical finance to describe the random movement of stock prices. It assumes that stock price returns follow a **log-normal distribution**.
+
+The core of the simulation is a discretized version of the GBM formula:
+
+$$S_t = S_0 \cdot e^{(\mu - \frac{1}{2}\sigma^2)t + \sigma W_t}$$
+
+Where:
+* $S_t$: The stock price at time $t$.
+* $S_0$: The initial stock price.
+* $\mu$: The expected annualized return (drift).
+* $\sigma$: The annualized volatility (standard deviation of returns).
+* $W_t$: The Wiener process, a random variable from a standard normal distribution.
+
+The script repeatedly applies this formula over a specified time horizon, generating thousands of possible future price paths.
+
+***
+
+### Getting Started
+
+#### Prerequisites
+
+To run this script, you need to have **Python 3** and the following libraries installed. You can install them using `pip`:
+
+```bash
+pip install numpy pandas matplotlib
