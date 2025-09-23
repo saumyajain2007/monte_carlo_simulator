@@ -50,7 +50,7 @@ pip install numpy pandas matplotlib
 
 #### Running the Script
 
-1.  Save the code: Save the provided Python code as a file named a.py.
+1.  Save the code: Save the provided Python code as a file named monte_carlo_simulator.py
 
 2.  Execute from the terminal: Open your terminal, navigate to the directory where you saved the file, and run the script:
 
