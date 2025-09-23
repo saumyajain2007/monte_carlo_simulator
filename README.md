@@ -46,6 +46,7 @@ To run this script, you need to have **Python 3** and the following libraries in
 
 ```bash
 pip install numpy pandas matplotlib
+```
 
 #### Running the Script
 
