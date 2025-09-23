@@ -19,3 +19,6 @@ Make sure you have Python 3.6 or newer installed.
 1. Clone the repository:
    ```bash
    git clone https://github.com/saumyajain2007/monte-carlo-stock-simulator.git
+2. Navigate into the project directory:
+   ```bash
+   cd monte-carlo-stock-simulator
