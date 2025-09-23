@@ -22,3 +22,12 @@ Make sure you have Python 3.6 or newer installed.
 2. Navigate into the project directory:
    ```bash
    cd monte-carlo-stock-simulator
+3. Install the required Python libraries:
+   ```bash
+   pip install -r requirements.txt
+### Running the Simulation
+4. Execute the script from your terminal:
+   ```bash
+   python monte_carlo_simulator.py
+### You can easily modify the TICKER, START_DATE, END_DATE, NUM_SIMULATIONS, and NUM_DAYS variables within the script to customize your analysis.
+   
