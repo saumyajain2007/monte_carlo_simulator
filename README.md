@@ -46,3 +46,12 @@ To run this script, you need to have **Python 3** and the following libraries in
 
 ```bash
 pip install numpy pandas matplotlib
+
+#### Running the Script
+
+1.  Save the code: Save the provided Python code as a file named a.py.
+
+2.  Execute from the terminal: Open your terminal, navigate to the directory where you saved the file, and run the script:
+
+```bash
+python3 monte_carlo_simulation.py
